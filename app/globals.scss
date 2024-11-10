@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+$background: #ffffff;
+$foreground: #000000;
+$primary: #505050;
+$secondary: #2bc968;
+$tertiary: #fcfcfc;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  color: $foreground;
+  background: $background;
+  font-family: Arial, Helvetica, sans-serif;
+}
