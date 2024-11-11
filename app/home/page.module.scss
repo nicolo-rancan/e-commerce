@@ -1,13 +1,14 @@
 .section {
   padding: 0 80px;
   display: flex;
-  height: calc(100vh - 90px);
 
   .hero {
+    height: calc(100vh - 90px);
     margin: auto 0;
     flex: 1;
 
     .title {
+      margin-top: 100px;
       padding: 10px 0;
 
       h1 {
@@ -40,8 +41,36 @@
     }
 
     .protip {
-      margin: 60px 0 16 0px;
+      margin: 60px 0;
       max-width: 25%;
+    }
+  }
+
+  .centerCard {
+    margin: 0 auto;
+    display: flex;
+    width: 70%;
+    height: 240px;
+    border-radius: 10px;
+    padding: 40px;
+    background-color: hsl(var(--primary));
+    color: hsl(var(--secondary));
+
+    .left {
+      margin: auto 0;
+      padding: 0 10px;
+      flex: 1;
+      text-wrap: wrap;
+      font-size: 40px;
+      line-height: 44px;
+    }
+
+    .right {
+      margin: auto 0;
+      padding: 0 10px;
+      flex: 1;
+      text-wrap: wrap;
+      font-size: 18px;
     }
   }
 }

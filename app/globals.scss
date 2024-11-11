@@ -2,11 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-$background: #ffffff;
+/*$background: #ffffff;
 $foreground: #000000;
 $primary: #505050;
 $secondary: #2bc968;
-$tertiary: #fcfcfc;
+$tertiary: #fcfcfc;*/
 
 @layer base {
   :root {
@@ -111,11 +111,11 @@ $tertiary: #fcfcfc;
   margin: 0;
   padding: 0;
   height: unset;
+  color: var(--foreground);
+  background: var(--background);
 }
 
 body {
-  color: $foreground;
-  background: $background;
   font-family: Arial, Helvetica, sans-serif;
 
   header {
