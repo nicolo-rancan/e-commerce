@@ -172,5 +172,39 @@ body {
   }
 
   footer {
+    height: 40vh;
+    background-color: hsl(var(--primary));
+    color: hsl(var(--background));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .wrapper {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr; 
+      /*gap: 10px;
+     
+
+      
+      width: 100%;
+      box-sizing: border-box;*/
+
+      padding: 50px 30px 30px 30px;
+      column-gap: 50px;
+      height: 100%;
+      .social {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        overflow: hidden;
+
+        .links{
+          display: flex;
+          flex-direction: row;
+          gap: 20px;
+        }
+      }
+      
+    }
   }
 }
