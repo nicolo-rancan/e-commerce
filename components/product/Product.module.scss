@@ -1,0 +1,53 @@
+.product {
+  height: auto;
+  display: flex;
+
+  .container {
+    width: 85%;
+    height: 100%;
+    margin: auto;
+
+    .pic {
+      overflow: hidden;
+      display: flex;
+      padding: 10px 0;
+
+      img {
+        margin: auto;
+      }
+    }
+
+    .description {
+      display: flex;
+      padding: 10px 0;
+      flex-direction: column;
+
+      h4 {
+        margin: 0 auto;
+        font-size: 24px;
+        font-weight: 600;
+        text-align: center;
+      }
+
+      p {
+        margin: 10px auto 0 auto;
+        text-align: center;
+      }
+    }
+
+    .buy {
+      padding: 10px 0;
+      display: flex;
+
+      p {
+        text-align: center;
+        margin: auto;
+        font-weight: 600;
+
+        span {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
