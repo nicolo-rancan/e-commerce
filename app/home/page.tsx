@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import styles from "./page.module.scss";
+import Product from "@/components/product/Product";
 
 const Home = () => {
   return (
@@ -37,6 +38,19 @@ const Home = () => {
           <div className={styles.right}>
             <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perferendis veritatis animi amet aliquam, ab sit modi voluptatibus facilis dolor dicta!</p>
           </div>
+        </div>
+      </section>
+      <section className={styles.section}>
+        <div className={styles.title}>
+          <h3>I nostri Prodotti</h3>
+        </div>
+        <div className={styles.products}>
+          <Product />
+          <Product />
+          <Product />
+          <Product />
+          <Product />
+          <Product />
         </div>
       </section>
     </main>
