@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Button } from "./ui/button";
 import { ShoppingBag } from "lucide-react";
 
