@@ -7,7 +7,8 @@ const Header = () => {
     <header>
       <div className="wrapper">
         <div className="item left">
-          <Image src="/logo.png" width={214} height={15} alt="" />
+          {/*<Image src="/logo.png" width={214} height={15} alt="" />*/}
+          <h1>ZANARRA</h1>
         </div>
         <div className="item center">
           <ul>

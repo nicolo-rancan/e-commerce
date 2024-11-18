@@ -1,4 +1,6 @@
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ArrowRight } from "lucide-react";
 import styles from "./page.module.scss";
 import Product from "@/components/product/Product";
 
@@ -36,7 +38,12 @@ const Home = () => {
             <h2>Lorem ipsum dolor sit amet consectetur.</h2>
           </div>
           <div className={styles.right}>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perferendis veritatis animi amet aliquam, ab sit modi voluptatibus facilis dolor dicta!</p>
+            <div className={styles.wrapper}>
+              <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perferendis veritatis animi amet aliquam, ab sit modi voluptatibus facilis dolor dicta!</p>
+              <Button variant="outline" size="icon">
+                <ArrowRight />
+              </Button>
+            </div>
           </div>
         </div>
       </section>
@@ -51,6 +58,41 @@ const Home = () => {
           <Product />
           <Product />
           <Product />
+        </div>
+      </section>
+      <section className={`${styles.section} ${styles.inline}`}>
+        <div className={styles.impression}>
+          <img src="https://i.pinimg.com/originals/59/92/5d/59925d3e4e40ebe644284ac343fd7f6f.jpg" alt="" />
+        </div>
+        <div className={styles.about}>
+          <div className={styles.wrapper}>
+            <h3>Chi siamo</h3>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, ea architecto aut atque repellat ullam. Molestias hic iusto sint impedit, necessitatibus ratione
+              doloribus quos officia earum labore totam consequatur alias.
+            </p>
+            <br />
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, ea architecto aut atque repellat ullam. Molestias hic iusto sint impedit, necessitatibus ratione
+              doloribus quos officia earum labore totam consequatur alias.
+            </p>
+            <button></button>
+          </div>
+        </div>
+      </section>
+      <section className={styles.section}>
+        <div className={styles.expander}></div>
+        <div className={styles.newsletter}>
+          <div className={styles.left}>
+            <h1>Iscriviti alla Newsletter</h1>
+            <p>Lorem ipsum dolor sit amet consectetur.</p>
+          </div>
+          <div className={styles.right}>
+            <div className="flex w-full max-w-bg items-center space-x-2">
+              <Input type="email" placeholder="Email" />
+              <Button type="submit">Iscriviti</Button>
+            </div>
+          </div>
         </div>
       </section>
     </main>

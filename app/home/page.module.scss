@@ -1,11 +1,28 @@
 .section {
-  padding: 0 80px;
+  padding: 0 120px;
   display: flex;
   flex-direction: column;
+  position: relative;
 
   .hero {
     height: calc(100vh - 120px);
     margin: auto 0;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 300px;
+      height: 100%;
+      width: 100%;
+      background-position: right;
+      background-size: contain;
+      background-repeat: no-repeat;
+      right: 0;
+      top: 0;
+      z-index: -1;
+      background-image: url("https://img.freepik.com/free-psd/stone-pile-isolated_23-2151870457.jpg?t=st=1731956976~exp=1731960576~hmac=0a407d694fb99ea734722b1c538d5ff1e34aa57da774642edef954602d87eb50&w=826");
+    }
 
     .title {
       margin-top: 100px;
@@ -20,7 +37,7 @@
     }
 
     .description {
-      max-width: 45%;
+      max-width: 42%;
       margin: 40px 0;
 
       h2 {
@@ -41,24 +58,26 @@
     }
 
     .protip {
-      margin: 60px 0;
-      max-width: 25%;
+      margin: 40px 0;
+      max-width: 40%;
+      display: none;
     }
   }
 
   .centerCard {
-    margin: 0 auto;
+    margin: 40px auto 0 auto;
     display: flex;
-    width: 80%;
+    width: 70%;
     height: 240px;
-    border-radius: 10px;
+    border-radius: 20px;
     padding: 40px;
     background-color: hsl(var(--primary));
+    box-shadow: 0px 0px 60px 0px rgba(0, 0, 0, 0.1);
     color: hsl(var(--secondary));
 
     .left {
       margin: auto 0;
-      padding: 0 10px;
+      padding: 0 30px 0 10px;
       flex: 1;
       text-wrap: wrap;
       font-size: 40px;
@@ -71,6 +90,28 @@
       flex: 1;
       text-wrap: wrap;
       font-size: 18px;
+
+      .wrapper {
+        display: flex;
+
+        p {
+          font-weight: 300;
+          margin-right: 40px;
+        }
+
+        button {
+          margin: auto;
+
+          svg {
+            width: 50px;
+            height: 50px;
+            background-color: hsl(var(--accent));
+            color: hsl(var(--primary));
+            padding: 6px;
+            border-radius: 999px;
+          }
+        }
+      }
     }
   }
 
@@ -89,4 +130,85 @@
     width: 80%;
     margin: 60px auto 0 auto;
   }
+
+  .impression {
+    flex: 1.5;
+    display: flex;
+
+    img {
+      margin: auto auto auto 0;
+      width: 80%;
+    }
+  }
+
+  .about {
+    margin: auto;
+    flex: 1;
+    display: flex;
+
+    .wrapper {
+      max-width: 80%;
+      margin: auto auto auto 0;
+
+      h3 {
+        font-size: 60px;
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+
+      p {
+        font-size: 18px;
+      }
+    }
+  }
+
+  .expander {
+    height: 160px;
+  }
+
+  .newsletter {
+    top: 0;
+    position: absolute;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    display: flex;
+    width: 70%;
+    height: 240px;
+    border-radius: 20px;
+    padding: 40px;
+    background-color: white;
+    box-shadow: 0px 0px 60px 0px rgba(0, 0, 0, 0.1);
+    color: hsl(var(--secondary));
+    display: flex;
+
+    .left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      color: hsl(var(--primary));
+
+      h1 {
+        font-size: 40px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      p {
+        font-size: 18px;
+      }
+    }
+
+    .right {
+      flex: 1;
+      display: flex;
+      justify-content: end;
+      color: hsl(var(--primary));
+    }
+  }
+}
+
+.inline {
+  flex-direction: row;
 }
