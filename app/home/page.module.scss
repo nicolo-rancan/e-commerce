@@ -5,21 +5,21 @@
   position: relative;
 
   .hero {
-    height: calc(100vh - 120px);
+    padding-top: 120px;
+    height: 100vh;
     margin: auto 0;
     position: relative;
 
     &::after {
       content: "";
       position: absolute;
-      width: 300px;
-      height: 100%;
-      width: 100%;
+      height: 85%;
+      width: 85%;
       background-position: right;
       background-size: contain;
       background-repeat: no-repeat;
       right: 0;
-      top: 0;
+      top: 10%;
       z-index: -1;
       background-image: url("https://img.freepik.com/free-psd/stone-pile-isolated_23-2151870457.jpg?t=st=1731956976~exp=1731960576~hmac=0a407d694fb99ea734722b1c538d5ff1e34aa57da774642edef954602d87eb50&w=826");
     }

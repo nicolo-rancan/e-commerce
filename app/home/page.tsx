@@ -1,10 +1,28 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowRight } from "lucide-react";
 import styles from "./page.module.scss";
 import Product from "@/components/product/Product";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { getArticles } from "./actions";
+import { articles as articleSchema } from "@/drizzle/schema";
 
 const Home = () => {
+  const [articles, setArticles] = useState<any>([]);
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    (async () => {
+      let data = await getArticles();
+      if (data && Object.hasOwn(data, "data")) {
+        setArticles(data.data);
+      }
+    })();
+  }, []);
+
   return (
     <main>
       <section className={styles.section}>
@@ -52,12 +70,10 @@ const Home = () => {
           <h3>I nostri Prodotti</h3>
         </div>
         <div className={styles.products}>
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
+          {articles &&
+            articles.map((article: typeof articleSchema, i: number) => {
+              return <Product key={i} article={article} />;
+            })}
         </div>
       </section>
       <section className={`${styles.section} ${styles.inline}`}>

@@ -121,6 +121,10 @@ body {
   header {
     height: 90px;
     display: flex;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    z-index: 1;
 
     .wrapper {
       flex: 1;
@@ -218,7 +222,6 @@ body {
 
       .right {
         flex: 2;
-
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
 

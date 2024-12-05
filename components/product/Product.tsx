@@ -1,11 +1,27 @@
+"use client";
+
+import { useSession } from "next-auth/react";
+import { Button } from "@/components/ui/button";
+import { articles as articleSchema } from "@/drizzle/schema";
+import { addArticleToBasket } from "./actions";
 import styles from "./Product.module.scss";
 
-const Product = () => {
+const Product = ({ article }: { article: typeof articleSchema }) => {
+  const { data: session, status } = useSession();
+
+  const addToCart = async () => {
+    if (status === "authenticated") {
+      await addArticleToBasket(article, session.userId);
+    } else {
+      console.log(article.name);
+    }
+  };
+
   return (
     <div className={styles.product}>
       <div className={styles.container}>
         <div className={styles.pic}>
-          <img src="https://static.vecteezy.com/system/resources/previews/026/676/313/non_2x/3d-rendering-of-promo-ashtray-free-png.png" alt="" />
+          <img src={`data:image/png;base64,${article.image}`} alt="" />
         </div>
         <div className={styles.description}>
           <h4>ASHTRAY</h4>
@@ -13,7 +29,10 @@ const Product = () => {
         </div>
         <div className={styles.buy}>
           <p>
-            Acquista Ora | <span>$46,60</span>
+            <Button onClick={addToCart} variant={"ghost"} style={{ height: "27px" }}>
+              Aggiunti al Carrello
+            </Button>{" "}
+            | <span>$46,60</span>
           </p>
         </div>
       </div>
