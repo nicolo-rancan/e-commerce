@@ -2,7 +2,7 @@ import NextAuth, { AuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { db } from "@/drizzle/db";
 import { users as userSchema } from "@/drizzle/schema";
-import { eq, lt, gte, ne } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
 export const authOptions: AuthOptions = {
   providers: [
