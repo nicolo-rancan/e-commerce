@@ -11,3 +11,7 @@ export const useGlobals = create<Globals>((set, get) => ({
   showBasketDialog: false,
   setShowBasketDialog: (state: boolean) => set({ showBasketDialog: state }),
 }));
+
+export const convertToSubcurrency = (amount: number, factor = 100) => {
+  return Math.round(amount * factor);
+};

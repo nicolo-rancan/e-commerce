@@ -29,7 +29,7 @@ export const authOptions: AuthOptions = {
       return true;
     },
     async redirect({ url, baseUrl }) {
-      return "http://localhost:3000/home";
+      return "https://ecommerce.nicolorancan.com/home";
     },
     async session({ session, user, token }) {
       const users = await db.select().from(userSchema).where(eq(userSchema.email, session.user?.email!));

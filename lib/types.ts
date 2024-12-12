@@ -1,5 +1,5 @@
 import NextAuth from "next-auth";
-import { relations, type InferSelectModel } from "drizzle-orm"
+import { relations, type InferSelectModel } from "drizzle-orm";
 import { articles, basket, reviews, users } from "@/drizzle/schema";
 import { basketRelations } from "@/drizzle/relations";
 
@@ -14,10 +14,20 @@ export type NewReviews = typeof reviews.$inferInsert;
 export type NewUsers = typeof users.$inferInsert;
 
 export type BasketRelation = {
-  articles: Articles
-  users: Users
+  basket: {
+    basketId: number;
+    articleId: number | null;
+    quantity: number;
+    userId: number | null;
+  };
+  articles: {
+    articleId: number;
+    name: string | null;
+    description: string | null;
+    price: string;
+    image: string | null;
+  };
 };
-
 
 export type Globals = {
   showBasketDialog: boolean;

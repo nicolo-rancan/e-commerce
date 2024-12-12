@@ -1,0 +1,29 @@
+.cnt {
+  padding: 10px 0;
+  display: flex;
+  gap: 15px;
+
+  .remove {
+    display: inline;
+  }
+
+  .quantity {
+    display: flex;
+    width: 60px;
+  }
+}
+
+.total {
+  margin: auto 0 auto auto;
+  text-align: right;
+
+  p {
+    font-weight: 500;
+    font-size: 0.9em;
+  }
+
+  h4 {
+    font-size: 1.25em;
+    font-weight: bold;
+  }
+}

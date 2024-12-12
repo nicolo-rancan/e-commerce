@@ -3,7 +3,7 @@
 import { db } from "@/drizzle/db";
 import { eq, and } from "drizzle-orm";
 import { articles as articleSchema, basket as basketSchema } from "@/drizzle/schema";
-import { Articles, NewBasket } from "@/lib/types";
+import { Articles, NewBasket, Basket } from "@/lib/types";
 
 export const addArticleToBasket = async (article: Articles, userId: number) => {
   const articles = await db
@@ -23,7 +23,13 @@ export const addArticleToBasket = async (article: Articles, userId: number) => {
   }
 };
 
-export const removeArticleFromBasket = async (article: Articles, userId: number | undefined) => {
+export const updateBasketArticleQuantity = async (basketId: number, quantity: number) => {
+  await db.update(basketSchema)
+  .set({ quantity })
+  .where(eq(basketSchema.basketId, basketId));
+}
+
+export const removeArticleFromBasket = async (article: Articles, userId: number) => {
   if (!userId) return false;
 
   const articles = await db

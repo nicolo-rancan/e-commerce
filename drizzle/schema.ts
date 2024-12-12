@@ -33,17 +33,18 @@ export const users = pgTable("users", {
 export const articles = pgTable("articles", {
   articleId: serial("article_id").primaryKey().notNull(),
   description: varchar({ length: 255 }),
-  price: numeric(),
+  price: numeric().notNull(),
   name: varchar({ length: 50 }),
   // TODO: failed to parse database type 'bytea'
   image: bytea("image"),
 });
 
-export const basket = pgTable("basket",
+export const basket = pgTable(
+  "basket",
   {
     basketId: serial("basket_id").primaryKey().notNull(),
     articleId: integer("article_id"),
-    quantity: doublePrecision(),
+    quantity: doublePrecision().notNull().default(1),
     userId: integer("user_id"),
   },
   (table) => {
