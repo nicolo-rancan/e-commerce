@@ -32,11 +32,6 @@ export const authOptions: AuthOptions = {
       return "http://localhost:3000/home";
     },
     async session({ session, user, token }) {
-      console.log("\n\n\n\n");
-      console.log(session);
-      console.log(user);
-      console.log("\n\n\n\n");
-
       const users = await db.select().from(userSchema).where(eq(userSchema.email, session.user?.email!));
       session.userId = users[0].userId;
 

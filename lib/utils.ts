@@ -8,6 +8,6 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const useGlobals = create<Globals>((set, get) => ({
-  user: undefined,
-  setUser: (state: Object) => set({ user: state }),
+  showBasketDialog: false,
+  setShowBasketDialog: (state: boolean) => set({ showBasketDialog: state }),
 }));

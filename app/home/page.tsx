@@ -8,10 +8,10 @@ import Product from "@/components/product/Product";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { getArticles } from "./actions";
-import { articles as articleSchema } from "@/drizzle/schema";
+import { Articles } from "@/lib/types";
 
 const Home = () => {
-  const [articles, setArticles] = useState<any>([]);
+  const [articles, setArticles] = useState<Array<Articles>>([]);
   const { data: session } = useSession();
 
   useEffect(() => {
@@ -36,8 +36,8 @@ const Home = () => {
           </div>
           <div className={styles.description}>
             <h2>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit nam nemo culpa minus veritatis omnis. Placeat tempora obcaecati tenetur porro vero iusto rerum dolore
-              nulla?
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit nam nemo culpa minus veritatis omnis. Placeat tempora obcaecati tenetur porro
+              vero iusto rerum dolore nulla?
             </h2>
           </div>
           <div className={styles.callto}>
@@ -46,7 +46,10 @@ const Home = () => {
           </div>
           <div className={styles.protip}>
             <img src="/test.png" alt="" />
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rem sequi reprehenderit unde suscipit autem tempore commodi asperiores maxime perferendis quas?</p>
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rem sequi reprehenderit unde suscipit autem tempore commodi asperiores maxime
+              perferendis quas?
+            </p>
           </div>
         </div>
       </section>
@@ -57,7 +60,10 @@ const Home = () => {
           </div>
           <div className={styles.right}>
             <div className={styles.wrapper}>
-              <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perferendis veritatis animi amet aliquam, ab sit modi voluptatibus facilis dolor dicta!</p>
+              <p>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perferendis veritatis animi amet aliquam, ab sit modi voluptatibus facilis dolor
+                dicta!
+              </p>
               <Button variant="outline" size="icon">
                 <ArrowRight />
               </Button>
@@ -71,7 +77,7 @@ const Home = () => {
         </div>
         <div className={styles.products}>
           {articles &&
-            articles.map((article: typeof articleSchema, i: number) => {
+            articles.map((article: Articles, i: number) => {
               return <Product key={i} article={article} />;
             })}
         </div>
@@ -84,13 +90,13 @@ const Home = () => {
           <div className={styles.wrapper}>
             <h3>Chi siamo</h3>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, ea architecto aut atque repellat ullam. Molestias hic iusto sint impedit, necessitatibus ratione
-              doloribus quos officia earum labore totam consequatur alias.
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, ea architecto aut atque repellat ullam. Molestias hic iusto sint impedit,
+              necessitatibus ratione doloribus quos officia earum labore totam consequatur alias.
             </p>
             <br />
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, ea architecto aut atque repellat ullam. Molestias hic iusto sint impedit, necessitatibus ratione
-              doloribus quos officia earum labore totam consequatur alias.
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, ea architecto aut atque repellat ullam. Molestias hic iusto sint impedit,
+              necessitatibus ratione doloribus quos officia earum labore totam consequatur alias.
             </p>
             <button></button>
           </div>

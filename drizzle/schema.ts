@@ -39,8 +39,7 @@ export const articles = pgTable("articles", {
   image: bytea("image"),
 });
 
-export const basket = pgTable(
-  "basket",
+export const basket = pgTable("basket",
   {
     basketId: serial("basket_id").primaryKey().notNull(),
     articleId: integer("article_id"),

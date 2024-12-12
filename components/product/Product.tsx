@@ -2,18 +2,37 @@
 
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
-import { articles as articleSchema } from "@/drizzle/schema";
+import { useToast } from "@/hooks/use-toast";
+import { redirect } from "next/navigation";
 import { addArticleToBasket } from "./actions";
 import styles from "./Product.module.scss";
+import { Articles } from "@/lib/types";
 
-const Product = ({ article }: { article: typeof articleSchema }) => {
+const Product = ({ article }: { article: Articles }) => {
   const { data: session, status } = useSession();
+  const { toast } = useToast();
 
   const addToCart = async () => {
     if (status === "authenticated") {
-      await addArticleToBasket(article, session.userId);
+      let success = await addArticleToBasket(article, session.userId);
+
+      if (success) {
+        toast({
+          variant: "success",
+          title: "Articolo aggiunto al Carrello!",
+          description: "Per incrementare la quantità, apri il carrello.",
+          duration: 3000,
+        });
+      } else {
+        toast({
+          variant: "warning",
+          title: "Articolo già presente nel Carrello.",
+          description: "Per incrementare la quantità, apri il carrello.",
+          duration: 3000,
+        });
+      }
     } else {
-      console.log(article.name);
+      redirect("/api/auth/signin");
     }
   };
 
@@ -24,15 +43,15 @@ const Product = ({ article }: { article: typeof articleSchema }) => {
           <img src={`data:image/png;base64,${article.image}`} alt="" />
         </div>
         <div className={styles.description}>
-          <h4>ASHTRAY</h4>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam minus earum</p>
+          <h4>{article.name}</h4>
+          <p>{article.description}</p>
         </div>
         <div className={styles.buy}>
           <p>
             <Button onClick={addToCart} variant={"ghost"} style={{ height: "27px" }}>
               Aggiunti al Carrello
-            </Button>{" "}
-            | <span>$46,60</span>
+            </Button>
+            | <span>{article.price?.toString().replace(".", ",")} €</span>
           </p>
         </div>
       </div>

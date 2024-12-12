@@ -4,22 +4,34 @@ import { redirect } from "next/navigation";
 import { Button } from "./ui/button";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
+import { useGlobals } from "@/lib/utils";
 
 import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Cloud, CreditCard, Github, Keyboard, LifeBuoy, LogOut, Mail, MessageSquare, Plus, PlusCircle, Settings, User, UserPlus, Users, ShoppingCart } from "lucide-react";
+import {
+  Cloud,
+  CreditCard,
+  Github,
+  Keyboard,
+  LifeBuoy,
+  LogOut,
+  Mail,
+  MessageSquare,
+  Plus,
+  PlusCircle,
+  Settings,
+  User,
+  UserPlus,
+  Users,
+  ShoppingCart,
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
@@ -27,6 +39,7 @@ const Header = () => {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
   const { data: session } = useSession();
+  const { setShowBasketDialog, showBasketDialog } = useGlobals();
 
   const handleLogin = () => {
     redirect("/api/auth/signin");
@@ -37,7 +50,6 @@ const Header = () => {
   };
 
   const handleDialog = () => {
-    console.log("OPEN");
     setDialogOpen(!dialogOpen);
   };
 
@@ -81,7 +93,7 @@ const Header = () => {
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <DropdownMenuItem style={{ cursor: "pointer" }}>
+                  <DropdownMenuItem onClick={() => setShowBasketDialog(!showBasketDialog)} style={{ cursor: "pointer" }}>
                     <ShoppingCart />
                     <span>Carrello</span>
                   </DropdownMenuItem>
