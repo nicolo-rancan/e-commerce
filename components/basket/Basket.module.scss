@@ -1,29 +1,35 @@
+.container {
+	overflow: auto;
+	max-height: 60vh;
+  padding-right: 10px;
+}
+
 .cnt {
-  padding: 10px 0;
-  display: flex;
-  gap: 15px;
+	padding: 10px 0;
+	display: flex;
+	gap: 15px;
 
-  .remove {
-    display: inline;
-  }
+	.remove {
+		display: inline;
+	}
 
-  .quantity {
-    display: flex;
-    width: 60px;
-  }
+	.quantity {
+		display: flex;
+		width: 60px;
+	}
 }
 
 .total {
-  margin: auto 0 auto auto;
-  text-align: right;
+	margin: auto 0 auto auto;
+	text-align: right;
 
-  p {
-    font-weight: 500;
-    font-size: 0.9em;
-  }
+	p {
+		font-weight: 500;
+		font-size: 0.9em;
+	}
 
-  h4 {
-    font-size: 1.25em;
-    font-weight: bold;
-  }
+	h4 {
+		font-size: 1.25em;
+		font-weight: bold;
+	}
 }

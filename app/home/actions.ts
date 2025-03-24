@@ -1,9 +1,10 @@
 "use server";
 
-import { db } from "@/drizzle/db";
-import { articles as articleSchema } from "@/drizzle/schema";
+import { stripe } from "@/lib/utils";
 
 export const getArticles = async () => {
-  const articles = await db.select().from(articleSchema);
-  return { data: articles };
+  const products = await stripe.products.list({
+    active: true,
+  });
+  return { data: products.data };
 };

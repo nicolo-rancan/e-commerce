@@ -1,41 +1,69 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useSession } from "next-auth/react";
-import { useGlobals } from "@/lib/utils";
+import { convertToCurrency, useGlobals } from "@/lib/utils";
 import { useEffect, useState } from "react";
+import { Basket as BasketType } from "@/lib/types";
 import { getBasket, removeArticleFromBasket, updateBasketArticleQuantity } from "../product/actions";
-import { BasketRelation } from "@/lib/types";
 import { Input } from "../ui/input";
+import { stripe } from "@/lib/utils";
+import Checkout from "../payment/Checkout";
 
 import styles from "./Basket.module.scss";
+import Stripe from "stripe";
+import { useToast } from "@/hooks/use-toast";
+
+type ArticlesPrice = {
+  article: Stripe.Product;
+  price: number;
+};
 
 const Basket = () => {
-  const [basket, setBasket] = useState<Array<BasketRelation>>([]);
+  const [basket, setBasket] = useState<Array<BasketType>>([]);
   const [total, setTotal] = useState<number>(0);
+  const [articlesPrice, setArticlesPrice] = useState<Array<ArticlesPrice>>([]);
   const { data: session, status } = useSession();
-  const { showBasketDialog, setShowBasketDialog } = useGlobals();
+  const { setPopupComponent, setPaymentAmount, showPopup, setPopupFull, stripeProducts } = useGlobals();
+  const { toast } = useToast();
 
   useEffect(() => {
     refreshBasket();
-  }, [showBasketDialog]);
+    setPopupFull(false);
+  }, [showPopup]);
 
   const refreshBasket = async () => {
     let data = await getBasket(session!.userId);
     if (data && Object.hasOwn(data, "data")) {
-      setBasket(data.data);
       let sum = 0;
+      let prices: Array<ArticlesPrice> = [];
 
-      data.data.forEach((el) => {
-        let price = el.articles.price;
-        let qta = el.basket.quantity;
-        console.log(price, qta);
-        sum += parseFloat(price) * qta;
-        console.log(sum);
-      });
+      for (const el of data.data) {
+        let id = el.articleId;
+        let article = stripeProducts?.find((pr) => pr.id == id);
 
+        if (article && article.default_price) {
+          let response = await stripe.prices.retrieve(article.default_price.toString());
+          let price = response.unit_amount;
+
+          if (price) {
+            let qta = el.quantity;
+            sum += convertToCurrency(price) * qta;
+            prices.push({
+              article,
+              price,
+            });
+          } else {
+            console.log("A2");
+          }
+        } else {
+          console.log("A1");
+        }
+      }
+
+      setArticlesPrice(prices);
       setTotal(sum);
+      setBasket(data.data);
     }
   };
 
@@ -44,63 +72,84 @@ const Basket = () => {
     await refreshBasket();
   };
 
-  return (
-    <Dialog open={showBasketDialog} onOpenChange={(open: boolean) => setShowBasketDialog(open)}>
-      <DialogContent className="sm:max-w-screen-lg">
-        <DialogHeader>
-          <DialogTitle>Il tuo Carrello</DialogTitle>
-          <DialogDescription>Controlla qui sotto i tuoi articoli salvati per dopo o continua a fare acquisti.</DialogDescription>
-        </DialogHeader>
+  const continueCheckout = () => {
+    if (basket.length > 0) {
+      setPopupFull(true);
+      setPopupComponent(<Checkout />);
+      setPaymentAmount(total);
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Nessun articolo.",
+        description: "Aggiungi almeno un articolo per poter procedere.",
+        duration: 3000,
+      });
+    }
+  };
 
-        <div className="grid gap-4 py-4 divide-y">
-          {basket && basket.length > 0 ? (
-            basket.map((basketRow: BasketRelation, i: number) => {
-              return (
-                <div key={i} className="grid grid-cols-10 items-center">
-                  <img className="p-4 col-span-2" src={`data:image/png;base64,${basketRow.articles.image}`} alt="" />
-                  <div style={{ paddingLeft: "30px" }} className="col-span-6 flex flex-col gap-1">
-                    <h3 className="font-bold">{basketRow.articles.name}</h3>
-                    <p>{basketRow.articles.description}</p>
-                    <div className={styles.cnt}>
-                      <Input
-                        value={basketRow.basket.quantity > 0 ? basketRow.basket.quantity : 1}
-                        className={`${styles.quantity} h-7`}
-                        type="number"
-                        onChange={(e) => updateArticleQuantity(basketRow.basket.basketId, e)}
-                      />
-                      <p
-                        className={`${styles.remove} text-sm mt-1 text-red-600 cursor-pointer`}
-                        onClick={() => {
-                          removeArticleFromBasket(basketRow.articles, session!.userId);
-                          refreshBasket();
-                        }}
-                      >
-                        Rimuovi
-                      </p>
-                    </div>
+  return (
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <div className={`${styles.container} grid gap-4 py-4 divide-y`}>
+        {basket && basket.length > 0 ? (
+          basket.map((basketRow: BasketType, i: number) => {
+            return (
+              <div key={i} className="grid grid-cols-10 items-center">
+                <img className="p-4 col-span-2" src={`${articlesPrice.find((el) => el.article.id == basketRow.articleId)?.article.images[0]}`} alt="" />
+                <div style={{ paddingLeft: "30px" }} className="col-span-6 flex flex-col gap-1">
+                  <h3 className="font-bold">{articlesPrice.find((el) => el.article.id == basketRow.articleId)?.article.name}</h3>
+                  <p>{articlesPrice.find((el) => el.article.id == basketRow.articleId)?.article.description}</p>
+                  <div className={styles.cnt}>
+                    <Input
+                      value={basketRow.quantity > 0 ? basketRow.quantity : 1}
+                      className={`${styles.quantity} h-7`}
+                      type="number"
+                      onChange={(e) => updateArticleQuantity(basketRow.basketId, e)}
+                    />
+                    <p
+                      className={`${styles.remove} text-sm mt-1 text-red-600 cursor-pointer`}
+                      onClick={() => {
+                        removeArticleFromBasket(articlesPrice.find((el) => el.article.id == basketRow.articleId)?.article!, session!.userId);
+                        refreshBasket();
+                      }}
+                    >
+                      Rimuovi
+                    </p>
                   </div>
-                  <h2 style={{ paddingLeft: "30px" }} className="text-lg font-bold col-span-2 text-right">
-                    {(parseFloat(basketRow.articles.price) * basketRow.basket.quantity).toFixed(2).toString().replace(".", ",")} €
+                </div>
+                <div style={{ paddingLeft: "30px" }} className="col-span-2 text-right">
+                  <p>
+                    {convertToCurrency(articlesPrice.find((el) => el.article.id == basketRow.articleId)?.price!)
+                      .toFixed(2)
+                      .toString()
+                      .replace(".", ",")}{" "}
+                    €
+                  </p>
+                  <h2 className="text-lg font-bold">
+                    {(convertToCurrency(articlesPrice.find((el) => el.article.id == basketRow.articleId)?.price!) * basketRow.quantity)
+                      .toFixed(2)
+                      .toString()
+                      .replace(".", ",")}{" "}
+                    €
                   </h2>
                 </div>
-              );
-            })
-          ) : (
-            <p style={{ margin: "auto", padding: "10px 0" }}>Nessun articolo</p>
-          )}
-        </div>
+              </div>
+            );
+          })
+        ) : (
+          <p style={{ margin: "auto", padding: "10px 0" }}>Nessun articolo</p>
+        )}
+      </div>
 
-        <div className="grid gap-4 py-4 divide-y">
-          <div className={styles.total}>
-            <p>TOTALE PROVVISORIO</p>
-            <h4>{total.toFixed(2).toString().replace(".", ",")} €</h4>
-          </div>
+      <div className="grid gap-4 py-4 divide-y">
+        <div className={styles.total}>
+          <p>TOTALE PROVVISORIO</p>
+          <h4>{total.toFixed(2).toString().replace(".", ",")} €</h4>
         </div>
-        <DialogFooter>
-          <Button type="submit">Procedi con l'Ordine</Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+      </div>
+      <Button style={{ marginLeft: "auto" }} onClick={continueCheckout}>
+        Procedi con l'Ordine
+      </Button>
+    </div>
   );
 };
 

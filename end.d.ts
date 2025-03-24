@@ -8,5 +8,6 @@ declare namespace NodeJS {
     DATABASE_URL: "string";
     NEXT_PUBLIC_STRIPE_PUBLIC_KEY: "string";
     STRIPE_SECRET_KEY: "string";
+    BASE_URL: "string";
   }
 }
