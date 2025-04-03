@@ -52,22 +52,6 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-          <div className="column">
-            <ul>
-              <li>
-                <p></p>
-              </li>
-              <li>
-                <p></p>
-              </li>
-              <li>
-                <p></p>
-              </li>
-              <li>
-                <p></p>
-              </li>
-            </ul>
-          </div>
         </div>
       </div>
     </footer>
